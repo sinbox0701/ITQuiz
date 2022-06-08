@@ -2,7 +2,7 @@
 - [x] Login
 - [x] Signup
 - [x] Home
-- [ ] Quiz
-- [ ] Answer
-- [ ] Score
-- [ ] Quiz Make
+- [x] Quiz
+- [x] Answer
+- [x] Score
+- [x] Quiz Make

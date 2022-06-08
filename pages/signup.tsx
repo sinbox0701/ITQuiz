@@ -1,5 +1,6 @@
 import Layout from '@components/layout'
 import type { NextPage } from 'next'
+import Link from 'next/link'
  
 const SignUp: NextPage = () => {
  return (
@@ -12,8 +13,12 @@ const SignUp: NextPage = () => {
         <div className='w-full md:w-2/3'>
             <button className='px-4 w-full py-2 rounded-xl text-slate-700 text-2xl bg-white font-bold text-center shadow-md hover:text-slate-900 hover:border-2'>회원가입</button>
             <div className='text-white text-sm p-2 flex justify-between'>
+              <Link href={`/`}>
                 <div className='hover:animate-pulse cursor-pointer'>퀴즈 풀러가기</div>
+              </Link>
+              <Link href={`/login`}>
                 <div className='hover:animate-pulse cursor-pointer'>퀴즈 만들러가기</div>
+              </Link>
             </div>
         </div>
       </form>
