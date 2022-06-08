@@ -32,7 +32,7 @@ model Quiz {
   total_c3 Int @default(0)
   total_c4 Int @default(0)
   description String
-  author String?
+  author String @default("admin")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
