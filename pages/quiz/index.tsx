@@ -1,9 +1,9 @@
-import Layout from '@components/layout'
+import Layout from 'components/layout'
 import type { NextPage } from 'next'
  
 const QuizMake: NextPage = () => {
   return (
-    <Layout title='회원가입'>
+    <Layout title='퀴즈만들기'>
       <div className='text-white font-bold text-3xl'>퀴즈를 만들어 보아요!</div>  
       <form className="flex flex-col w-2/3 space-y-4 items-center">
         <textarea placeholder='문제' rows={3} className='appearance-none w-full md:w-2/3 px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' />

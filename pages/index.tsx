@@ -1,10 +1,14 @@
-import Layout from '@components/layout'
+import Layout from 'components/layout'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
- 
+import { useSession, } from 'next-auth/react'; 
+
 const Home: NextPage = () => {
   const router = useRouter();
+  const { data:session, status } = useSession();
+  console.log(session);
+  console.log(status);
   return (
     <Layout title="IT Quiz">
       <div className='text-white text-5xl font-semibold animate-bounce hover:animate-spin md:text-8xl'>
@@ -13,9 +17,15 @@ const Home: NextPage = () => {
       <button onClick={() => router.push(`/quiz/1`)} className='px-4 py-2 w-2/3 rounded-xl text-slate-700 text-2xl font-bold bg-white text-center shadow-md hover:text-slate-900 hover:border-2'>기본 퀴즈 풀러가기</button>
       <div className='w-full flex flex-col space-y-1 items-center justify-center'>
         <button onClick={() => router.push(`/quiz/1`)} className='px-4 py-2 w-2/3 rounded-xl text-slate-700 text-2xl font-bold bg-white text-center shadow-md hover:text-slate-900 hover:border-2'>다양한 퀴즈 풀러가기</button>
-        <Link href={`/login`}>
-          <div className='text-white text-sm p-2 hover:animate-pulse cursor-pointer'>퀴즈 만들러 가기</div>
-        </Link>
+        {status !== "authenticated" ? ( 
+          <Link href={`/login`}>
+            <div className='text-white text-sm p-2 hover:animate-pulse cursor-pointer'>로그인하고 퀴즈만들기</div>
+          </Link>
+        ):(
+          <Link href={`/quiz`}>
+            <div className='text-white text-sm p-2 hover:animate-pulse cursor-pointer'>퀴즈 만들러 가기</div>
+          </Link>
+        )}
       </div>
     </Layout>
  );
