@@ -9,10 +9,12 @@ interface SignupForm {
   name: string;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
 interface SignupResult {
   ok:boolean;
+  error?:string;
 }
 
 const SignUp: NextPage = () => {
@@ -24,7 +26,7 @@ const SignUp: NextPage = () => {
   const onValid = (dataForm:SignupForm) => {
     if(loading) return;
     signup(dataForm);
-    // router.push({pathname:'/login'})
+    router.push({pathname:'/login'})
   };
 
   return (
@@ -68,7 +70,21 @@ const SignUp: NextPage = () => {
         {errors.password?.message ? (
           <div className='text-red-500'>{errors.password?.message}</div>
         ):null}  
-        <input type="password" placeholder='비밀번호 확인' className='appearance-none w-full md:w-2/3 px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' /> 
+        <input 
+          {...register("passwordConfirm",{
+            required:"비밀번호를 입력하세요",
+            minLength:{
+              message:"6자 이상 입력해주세요",
+              value:6
+            }
+          })}
+          type="password" 
+          placeholder='비밀번호 확인' 
+          className='appearance-none w-full md:w-2/3 px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
+        />
+        {data?.error ? (
+          <div className='text-red-500'>{data?.error}</div>
+        ):null}
         <div className='w-full md:w-2/3'>
             <button className='px-4 w-full py-2 rounded-xl text-slate-700 text-2xl bg-white font-bold text-center shadow-md hover:text-slate-900 hover:border-2'>회원가입</button>
             <div className='text-white text-sm p-2 flex justify-between'>

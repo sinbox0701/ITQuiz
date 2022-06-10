@@ -4,14 +4,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hash, compare } from "bcryptjs";
 
 async function handler(req:NextApiRequest, res:NextApiResponse<ResponseType>){
-    const { name, password, email } = req.body;
+    const { name, password, email, passwordConfirm } = req.body;
     const exist = await client.user.findUnique({
         where:{
             email
         }
     });
     if(exist){
-      return res.status(400).json({ok:false});
+      return res.json({ok:false, error:"이미 존재하는 계정입니다!"});
+    }
+    if(password !== passwordConfirm){
+        return res.json({ok:false, error:"비밀번호를 다시 확인해주세요!"});
     }
     const hashedPassword = await hash(password, 10);
     await client.user.create({

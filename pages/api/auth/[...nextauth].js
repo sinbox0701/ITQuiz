@@ -1,5 +1,7 @@
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
+import client from "@libs/client";
+import { hash, compare } from "bcryptjs";
 
 export default  NextAuth({
     providers: [
@@ -8,18 +10,23 @@ export default  NextAuth({
                 email:{ label:"E-Mail", type:"email", placeholder:"user@email.com" },
                 password:{ label:"password", type:"password", placeholder:"비밀번호" }
             },
-            authorize(credentials,req){
-                if(credentials.email === "test@email.com" && credentials.password === "1234"){
-                    const user = { id: 1, name: "J Smith", email: "test@email.com" }
+            async authorize(credentials,req){
+                const user = await client.user.findUnique({
+                    where:{
+                        email:String(credentials.email)
+                    },
+                    select: {
+                        name: true, email: true, password: true
+                    },
+                });
+                if(!user) {
+                    throw new Error("이메일을 찾을 수 없습니다!");
                 }
-
-                if (user) {
-                    // Any object returned will be saved in `user` property of the JWT
-                    return user
-                } else {
-                    // If you return null or false then the credentials will be rejected
-                    return null
+                const isValid = await compare(credentials.password,user.password);
+                if (!isValid) {
+                    throw new Error("비밀번호를 틀렸습니다!");
                 }
+                return { name: user.name, email: user.email };
             }
         })
     ],
