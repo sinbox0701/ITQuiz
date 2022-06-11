@@ -1,7 +1,17 @@
 import Layout from 'components/layout'
 import type { NextPage } from 'next'
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
  
 const QuizMake: NextPage = () => {
+  const { status } = useSession();
+  const router = useRouter();
+  useEffect(()=>{
+    if(status!=="authenticated"){
+      router.push("/");
+    }
+  },[router, status]);
   return (
     <Layout title='퀴즈만들기'>
       <div className='text-white font-bold text-3xl'>퀴즈를 만들어 보아요!</div>  

@@ -6,3 +6,11 @@
 - [x] Answer
 - [x] Score
 - [x] Quiz Make
+
+## API
+- [x] SIGNUP
+- [x] LOGIN
+- [ ] MAKE QUIZ
+- [ ] QUIZ (RANDOM 10)
+- [ ] SCORE
+- [ ] ANSWER
