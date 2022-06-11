@@ -23,9 +23,6 @@ export default function withHandler({
       console.log("hi");
       return res.status(405).end();
     }
-    // if(isPrivate && !req.session.user){
-    //   return res.status(401).json({ok:false, error:"Login GO"});
-    // }
     try{
       await handler(req, res);
     }catch(error){

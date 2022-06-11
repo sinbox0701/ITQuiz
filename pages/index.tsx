@@ -7,8 +7,6 @@ import { useSession, } from 'next-auth/react';
 const Home: NextPage = () => {
   const router = useRouter();
   const { data:session, status } = useSession();
-  console.log(session);
-  console.log(status);
   return (
     <Layout title="IT Quiz">
       <div className='text-white text-5xl font-semibold animate-bounce hover:animate-spin md:text-8xl'>

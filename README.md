@@ -10,7 +10,7 @@
 ## API
 - [x] SIGNUP
 - [x] LOGIN
-- [ ] MAKE QUIZ
+- [x] MAKE QUIZ
 - [ ] QUIZ (RANDOM 10)
 - [ ] SCORE
 - [ ] ANSWER
