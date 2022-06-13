@@ -3,8 +3,15 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useSession, } from 'next-auth/react'; 
+import client from '@libs/client';
+import { Quiz } from '@prisma/client';
 
-const Home: NextPage = () => {
+interface QuizResponse {
+  quizzes: Quiz[]
+
+}
+
+const Home: NextPage<QuizResponse> = ({quizzes}) => {
   const router = useRouter();
   const { data:session, status } = useSession();
   return (
@@ -27,6 +34,36 @@ const Home: NextPage = () => {
       </div>
     </Layout>
  );
+}
+
+export async function getStaticProps(){
+  const quizzes = await client.quiz.findMany({
+    orderBy:[
+      {
+        submitCount:'asc',
+      },
+      {
+        createdAt:'desc'
+      }
+    ],
+    take:10
+  });
+  quizzes.map(async (quiz) => {
+    await client.quiz.update({
+      where:{
+        id:quiz.id
+      },
+      data:{
+        submitCount:quiz.submitCount+1
+      }
+    })
+  });
+  return {
+    props:{
+      quizzes:JSON.parse(JSON.stringify(quizzes))
+    },
+    revalidate: 20
+  }
 }
 
 export default Home
