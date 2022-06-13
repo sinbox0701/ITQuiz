@@ -5,15 +5,19 @@ import { useRouter } from 'next/router'
 import { useSession, } from 'next-auth/react'; 
 import client from '@libs/client';
 import { Quiz } from '@prisma/client';
+import useSWR from 'swr';
 
 interface QuizResponse {
+  ok: boolean;
   quizzes: Quiz[]
-
 }
 
 const Home: NextPage<QuizResponse> = ({quizzes}) => {
   const router = useRouter();
   const { data:session, status } = useSession();
+  
+  const { data } = useSWR<QuizResponse>(session?.user?.name ? `/api/quiz?name=${session?.user?.name}` : '/api/quiz' );
+  console.log(data);
   return (
     <Layout title="IT Quiz">
       <div className='text-white text-5xl font-semibold animate-bounce hover:animate-spin md:text-8xl'>
@@ -36,34 +40,34 @@ const Home: NextPage<QuizResponse> = ({quizzes}) => {
  );
 }
 
-export async function getStaticProps(){
-  const quizzes = await client.quiz.findMany({
-    orderBy:[
-      {
-        submitCount:'asc',
-      },
-      {
-        createdAt:'desc'
-      }
-    ],
-    take:10
-  });
-  quizzes.map(async (quiz) => {
-    await client.quiz.update({
-      where:{
-        id:quiz.id
-      },
-      data:{
-        submitCount:quiz.submitCount+1
-      }
-    })
-  });
-  return {
-    props:{
-      quizzes:JSON.parse(JSON.stringify(quizzes))
-    },
-    revalidate: 20
-  }
-}
+// export async function getStaticProps(){
+//   const quizzes = await client.quiz.findMany({
+//     orderBy:[
+//       {
+//         submitCount:'asc',
+//       },
+//       {
+//         createdAt:'desc'
+//       }
+//     ],
+//     take:10
+//   });
+//   quizzes.map(async (quiz) => {
+//     await client.quiz.update({
+//       where:{
+//         id:quiz.id
+//       },
+//       data:{
+//         submitCount:quiz.submitCount+1
+//       }
+//     })
+//   });
+//   return {
+//     props:{
+//       quizzes:JSON.parse(JSON.stringify(quizzes))
+//     },
+//     revalidate: 20
+//   }
+// }
 
 export default Home

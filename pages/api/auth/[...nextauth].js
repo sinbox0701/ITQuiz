@@ -15,10 +15,14 @@ export default  NextAuth({
                     where:{
                         email:String(credentials.email)
                     },
-                    select: {
-                        name: true, email: true, password: true
-                    },
-                });
+                    select:{
+                        name:true,
+                        email:true,
+                        password:true,
+                        isAdmin:true
+                    }
+                })
+                console.log(user);
                 if(!user) {
                     throw new Error("이메일을 찾을 수 없습니다!");
                 }
@@ -26,7 +30,7 @@ export default  NextAuth({
                 if (!isValid) {
                     throw new Error("비밀번호를 틀렸습니다!");
                 }
-                return { name: user.name, email: user.email };
+                return { name: user.name, email: user.email, password:user.password, isAdmin:user.isAdmin };
             }
         })
     ],
