@@ -51,7 +51,7 @@ const Quiz: NextPage = () => {
    <div className='h-screen flex items-center justify-center'>
     <div className="h-1/2 flex justify-center">
       <div className="block p-6 rounded-lg shadow-lg bg-white max-w-xs">
-        <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{quizzes[curNum]?.quiz}</h5>
+        <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{curNum+1}. {quizzes[curNum]?.quiz}</h5>
         <div className="flex mt-8 space-x-3 items-center justify-center mb-16">
           <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice1" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice1")}>{quizzes[curNum]?.choice1}</button>
           <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice2" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice2")}>{quizzes[curNum]?.choice2}</button>
