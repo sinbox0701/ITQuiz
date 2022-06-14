@@ -1,4 +1,3 @@
-import { Quiz } from "@prisma/client";
 import { createSlice } from "@reduxjs/toolkit";
 import { QuizState, Setting_Actions } from "./type";
 

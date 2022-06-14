@@ -31,9 +31,9 @@ const Score: NextPage = () => {
         <h5 className="text-slate-700 text-xl leading-tight font-medium">Score</h5>
         <div className='flex flex-col items-center justify-center text-9xl'>
           <div><span className='text-red-400'>{curScore}</span><span className='text-slate-600'>/{curNum+1}</span></div>
-          {current/total <= 0.4 ? (
+          {curScore/(curNum + 1) <= 0.4 ? (
             <div className='animate-ping'>😱</div>
-          ) : (current/total <=0.7 ? ( 
+          ) : (curScore/(curNum + 1) <=0.7 ? ( 
             <div className='animate-ping'>😳</div> 
           ) : (
             <div className='animate-ping'>😆</div>

@@ -24,11 +24,11 @@ interface MakeQuizResult {
 const QuizMake: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
-  const { register, handleSubmit, formState:{errors, isValid} } = useForm<MakeQuizForm>({
+  const { register, handleSubmit, formState:{ isValid } } = useForm<MakeQuizForm>({
     mode:"onChange"
   });
   console.log(isValid);
-  const [ makequiz, {data, loading, error} ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
+  const [ makequiz, { loading } ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
   const onValid = (dataForm:MakeQuizForm) => {
     if(loading) return;
     makequiz(dataForm);

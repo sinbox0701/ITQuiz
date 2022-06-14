@@ -3,7 +3,7 @@ import Layout from 'components/layout'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
-import { FieldErrors, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 interface SignupForm {
   name: string;
@@ -22,7 +22,7 @@ const SignUp: NextPage = () => {
   const { register, handleSubmit, formState:{errors}, } = useForm<SignupForm>({
     mode:"onChange"
   });
-  const [signup, {data, loading, error}] = useMutation<SignupResult>("/api/users/signup")
+  const [signup, { data, loading }] = useMutation<SignupResult>("/api/users/signup")
   const onValid = (dataForm:SignupForm) => {
     if(loading) return;
     signup(dataForm);

@@ -11,12 +11,6 @@ interface LoginForm {
   password: string;
 }
 
-// declare module 'next-auth/providers'{
-//   interface RedirectableProviderType{
-
-//   }
-// }
-
 type ResultType = RedirectableProviderType & {
   error: string | undefined;
   status: number;

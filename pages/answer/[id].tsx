@@ -1,19 +1,15 @@
-import { cls } from '@libs/utils';
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/app/hooks';
-import { increaseNumber, resetNumber, resetScore } from 'redux/slices/quiz/currentStateSlice';
+import { increaseNumber } from 'redux/slices/quiz/currentStateSlice';
 
 const Answer: NextPage = () => {
-  const [current, setCurrent] = useState(1);
-  const [total, setTotal] = useState(1);
   const router = useRouter();
   const quizState = useAppSelector((state) => state.quizState);
   const quizTen = useAppSelector((state) => state.quizTen);
-  const { curNum, curScore, select } = quizState;
-  const { quizzes, quizTotal} = quizTen;
+  const { curNum, curScore } = quizState;
+  const { quizzes } = quizTen;
   const dispatch = useDispatch();
   const ratio = (data:number) => {
     let totals = (quizzes[curNum].total_c1 +  quizzes[curNum].total_c2 + quizzes[curNum].total_c3 + quizzes[curNum].total_c4);
@@ -52,9 +48,9 @@ const Answer: NextPage = () => {
         </button>
         <div className='mt-4 flex flex-col items-center justify-center text-6xl'>
           <div className='mb-4'><span className='text-red-400'>{curScore}</span><span className='text-slate-600'>/{curNum+1}</span></div>
-          {current/total <= 0.4 ? (
+          {curScore/(curNum + 1) <= 0.4 ? (
             <div>😱</div>
-          ) : (current/total <=0.7 ? ( 
+          ) : (curScore/(curNum + 1) <=0.7 ? ( 
             <div>😳</div> 
           ) : (
             <div>😆</div>

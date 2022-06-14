@@ -1,7 +1,7 @@
 import client from "@libs/client";
 import withHandler, { ResponseType } from "@libs/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-import { hash, compare } from "bcryptjs";
+import { hash } from "bcryptjs";
 
 async function handler(req:NextApiRequest, res:NextApiResponse<ResponseType>){
     const { name, password, email, passwordConfirm } = req.body;

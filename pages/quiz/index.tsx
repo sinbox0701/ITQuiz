@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/app/hooks';
-import { increaseNumber, increaseScore } from 'redux/slices/quiz/currentStateSlice';
+import { increaseScore } from 'redux/slices/quiz/currentStateSlice';
 import { resetQuiz, settingQuiz } from 'redux/slices/quiz/quizTenSlice';
 import useSWR from 'swr';
 
@@ -23,11 +23,11 @@ interface AnswerResult {
 const Quiz: NextPage = () => {
   const [choice, setChoice] = useState("");
   const router = useRouter();
-  const [ correctAnswer, {data, loading, error} ] = useMutation<AnswerResult>("/api/answer/correctAnswer")
+  const [ correctAnswer ] = useMutation<AnswerResult>("/api/answer/correctAnswer")
   const quizState = useAppSelector((state) => state.quizState);
   const quizTen = useAppSelector((state) => state.quizTen);
-  const { curNum, curScore, select } = quizState;
-  const { quizzes, quizTotal} = quizTen;
+  const { curNum, select } = quizState;
+  const { quizzes} = quizTen;
   const { data:quiz10 } = useSWR<QuizResponse>(`/api/quiz?select=${select}`);
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -43,8 +43,7 @@ const Quiz: NextPage = () => {
     router.push(`/answer/${quizzes[curNum].id}`)
     setChoice("");
   };
-  console.log(quizzes);
-  console.log(quizTotal);
+
   return (
    <div className='h-screen flex items-center justify-center'>
     <div className="h-1/2 flex justify-center">

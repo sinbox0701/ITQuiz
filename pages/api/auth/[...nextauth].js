@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
 import client from "@libs/client";
-import { hash, compare } from "bcryptjs";
+import { compare } from "bcryptjs";
 
 export default  NextAuth({
     providers: [
@@ -10,7 +10,7 @@ export default  NextAuth({
                 email:{ label:"E-Mail", type:"email", placeholder:"user@email.com" },
                 password:{ label:"password", type:"password", placeholder:"비밀번호" }
             },
-            async authorize(credentials,req){
+            async authorize(credentials, req){
                 const user = await client.user.findUnique({
                     where:{
                         email:String(credentials.email)
