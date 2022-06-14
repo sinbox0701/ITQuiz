@@ -31,9 +31,8 @@ const QuizMake: NextPage = () => {
   const [ makequiz, { loading } ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
   const onValid = (dataForm:MakeQuizForm) => {
     if(loading) return;
-    console.log(dataForm)
-    // makequiz({...dataForm, user:session?.user?.name});
-    // router.push({pathname:'/'});
+    makequiz({...dataForm, user:session?.user?.name});
+    router.push({pathname:'/'});
   };
   useEffect(()=>{
     if(status!=="authenticated"){
