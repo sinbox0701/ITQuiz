@@ -36,8 +36,6 @@ const Quiz: NextPage = () => {
       quiz10?.quizzes.forEach((quiz)=>dispatch(settingQuiz(quiz)));
     }
   },[quiz10, dispatch, quizTotal]);
-  console.log(quizzes);
-  console.log(select);
   const answerButton = () => {
     if(quizzes[curNum].answer === +(choice.slice(-1)) ){
       dispatch(increaseScore())
