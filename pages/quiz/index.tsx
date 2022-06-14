@@ -35,8 +35,9 @@ const Quiz: NextPage = () => {
     if(quizTotal < 10) {
       quiz10?.quizzes.forEach((quiz)=>dispatch(settingQuiz(quiz)));
     }
-  },[quiz10,dispatch, quizTotal])
-
+  },[quiz10, dispatch, quizTotal]);
+  console.log(quizzes);
+  console.log(select);
   const answerButton = () => {
     if(quizzes[curNum].answer === +(choice.slice(-1)) ){
       dispatch(increaseScore())
@@ -45,8 +46,6 @@ const Quiz: NextPage = () => {
     router.push(`/answer/${quizzes[curNum].id}`)
     setChoice("");
   };
-  console.log(quizzes);
-  console.log(quizTotal);
   return (
    <div className='h-screen flex items-center justify-center'>
     <div className="h-1/2 flex justify-center">

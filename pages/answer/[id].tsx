@@ -12,7 +12,7 @@ const Answer: NextPage = () => {
   const { quizzes } = quizTen;
   const dispatch = useDispatch();
   const ratio = (data:number) => {
-    let totals = (quizzes[curNum].total_c1 +  quizzes[curNum].total_c2 + quizzes[curNum].total_c3 + quizzes[curNum].total_c4);
+    let totals = (quizzes[curNum]?.total_c1 +  quizzes[curNum]?.total_c2 + quizzes[curNum]?.total_c3 + quizzes[curNum]?.total_c4);
     if(totals === 0) {
       return 0;
     }

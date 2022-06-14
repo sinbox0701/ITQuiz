@@ -20,13 +20,11 @@ export default function withHandler({
 }:ConfigType){
   return async function(req:NextApiRequest, res:NextApiResponse):Promise<any>{
     if(req.method && !methods.includes(req.method as any)){//any타입의 req.method가 존재하는지
-      console.log("hi");
       return res.status(405).end();
     }
     try{
       await handler(req, res);
     }catch(error){
-    //   console.log(error);
       return res.status(500).json({error});
     }
   }

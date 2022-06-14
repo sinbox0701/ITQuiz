@@ -22,7 +22,6 @@ export default  NextAuth({
                         isAdmin:true
                     }
                 })
-                console.log(user);
                 if(!user) {
                     throw new Error("이메일을 찾을 수 없습니다!");
                 }

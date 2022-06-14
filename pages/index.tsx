@@ -5,19 +5,24 @@ import { useRouter } from 'next/router'
 import { useSession, } from 'next-auth/react'; 
 import { useDispatch } from 'react-redux';
 import { selectFalse, selectTrue } from 'redux/slices/quiz/currentStateSlice';
+import { useEffect } from 'react';
+import { useAppSelector } from 'redux/app/hooks';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { status } = useSession();
   const dispatch = useDispatch();
+  const quizTen = useAppSelector((state) => state.quizTen);
+  const { quizTotal } = quizTen;
   const onNextButtonOne = () => {
     dispatch(selectTrue());
-    router.push(`/quiz`)
+    router.replace(`/quiz`);
   }
   const onNextButtonTwo = () => {
     dispatch(selectFalse());
-    router.push(`/quiz`)
+    router.replace(`/quiz`);
   }
+  
   return (
     <Layout title="IT Quiz">
       <div className='text-white text-5xl font-semibold animate-bounce hover:animate-spin md:text-8xl'>

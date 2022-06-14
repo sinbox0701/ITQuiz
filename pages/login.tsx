@@ -29,7 +29,6 @@ const Login: NextPage = () => {
       email:data.email,
       password:data.password
     });
-    console.log(result?.error);
     if (!result?.error) {
       router.replace("/");
     } else {

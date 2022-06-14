@@ -4,7 +4,7 @@ import { CurrentState } from "./type";
 const initialState: CurrentState = {
     curNum: 0,
     curScore: 0,
-    select: true
+    select: true,
 }
 
 export const currentStateSlice = createSlice({
@@ -21,14 +21,14 @@ export const currentStateSlice = createSlice({
             state.curScore += 1;
         },
         resetScore: (state) => {
-            state.curScore =0;
+            state.curScore = 0;
         },
         selectTrue: (state) => {
             state.select = true;
         },
         selectFalse: (state) => {
             state.select = false;
-        }
+        },
     }
 });
 

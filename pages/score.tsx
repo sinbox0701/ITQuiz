@@ -17,7 +17,7 @@ const Score: NextPage = () => {
     dispatch(resetScore());
     dispatch(resetTotal());
     dispatch(resetQuiz());
-    console.log(quizzes);
+    // dispatch()
     router.push("/")
   };
   return (
