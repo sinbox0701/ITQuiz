@@ -31,8 +31,9 @@ const QuizMake: NextPage = () => {
   const [ makequiz, { loading } ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
   const onValid = (dataForm:MakeQuizForm) => {
     if(loading) return;
-    makequiz({...dataForm, user:session?.user?.name});
-    router.push({pathname:'/'});
+    console.log(dataForm)
+    // makequiz({...dataForm, user:session?.user?.name});
+    // router.push({pathname:'/'});
   };
   useEffect(()=>{
     if(status!=="authenticated"){
@@ -89,14 +90,16 @@ const QuizMake: NextPage = () => {
           <span className="flex items-center select-none text-sm text-gray-400">
             보기 중 정답 번호(숫자만)
           </span>
-          <input
-            {...register("answer",{
+          <select {...register("answer",{
               required:"정답을 입력하세요!"
-            })} 
-            type="text"
-            placeholder='1' 
-            className='appearance-none w-1/2 text-xs px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-center' 
-          /> 
+            })}
+            className='appearance-none w-1/2 text-xs px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-center'
+          >
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+          </select>
         </div>
         <div className='w-full md:w-2/3'>
             <button
