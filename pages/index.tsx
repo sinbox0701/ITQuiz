@@ -40,34 +40,4 @@ const Home: NextPage = () => {
  );
 }
 
-// export async function getStaticProps(){
-//   const quizzes = await client.quiz.findMany({
-//     orderBy:[
-//       {
-//         submitCount:'asc',
-//       },
-//       {
-//         createdAt:'desc'
-//       }
-//     ],
-//     take:10
-//   });
-//   quizzes.map(async (quiz) => {
-//     await client.quiz.update({
-//       where:{
-//         id:quiz.id
-//       },
-//       data:{
-//         submitCount:quiz.submitCount+1
-//       }
-//     })
-//   });
-//   return {
-//     props:{
-//       quizzes:JSON.parse(JSON.stringify(quizzes))
-//     },
-//     revalidate: 20
-//   }
-// }
-
 export default Home

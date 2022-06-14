@@ -1,15 +1,11 @@
-import { cls } from '@libs/utils';
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'redux/app/hooks';
 import { resetNumber, resetScore } from 'redux/slices/quiz/currentStateSlice';
 import { resetQuiz, resetTotal } from 'redux/slices/quiz/quizTenSlice';
 
 const Score: NextPage = () => {
-  const [current, setCurrent] = useState(8);
-  const [total, setTotal] = useState(10);
   const router = useRouter();
   const quizState = useAppSelector((state) => state.quizState);
   const quizTen = useAppSelector((state) => state.quizTen);
