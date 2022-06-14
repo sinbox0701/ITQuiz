@@ -9,8 +9,8 @@ const Score: NextPage = () => {
   const router = useRouter();
   const quizState = useAppSelector((state) => state.quizState);
   const quizTen = useAppSelector((state) => state.quizTen);
-  const { curNum, curScore, select } = quizState;
-  const { quizzes, quizTotal} = quizTen;
+  const { curNum, curScore } = quizState;
+  const { quizzes } = quizTen;
   const dispatch = useDispatch();
   const nextButton = () => {
     dispatch(resetNumber());
