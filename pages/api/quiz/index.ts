@@ -3,8 +3,8 @@ import withHandler, { ResponseType } from "@libs/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req:NextApiRequest, res:NextApiResponse<ResponseType>){
-  const { name } = req.query;
-  if(name === 'admin'){
+  const { select } = req.query;
+  if(select === 'true'){
     const quizzes = await client.quiz.findMany({
       where:{
         author:'admin'

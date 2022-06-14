@@ -1,114 +1,73 @@
 import useMutation from '@libs/useMutation';
 import { cls } from '@libs/utils';
-import Layout from 'components/layout'
+import { Quiz } from '@prisma/client';
 import type { NextPage } from 'next'
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
- 
-interface MakeQuizForm {
-  quiz: string;
-  answer: number;
-  choice1: string;
-  choice2: string;
-  choice3: string;
-  choice4: string;
-};
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from 'redux/app/hooks';
+import { increaseNumber, increaseScore } from 'redux/slices/quiz/currentStateSlice';
+import { resetQuiz, settingQuiz } from 'redux/slices/quiz/quizTenSlice';
+import useSWR from 'swr';
 
-interface MakeQuizResult {
+interface QuizResponse {
+  ok: boolean;
+  quizzes: Quiz[]
+}
+
+interface AnswerResult {
   ok:boolean;
   error?:string;
 }
 
-const QuizMake: NextPage = () => {
-  const { status } = useSession();
+const Quiz: NextPage = () => {
+  const [choice, setChoice] = useState("");
   const router = useRouter();
-  const { register, handleSubmit, formState:{errors, isValid} } = useForm<MakeQuizForm>({
-    mode:"onChange"
-  });
-  console.log(isValid);
-  const [ makequiz, {data, loading, error} ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
-  const onValid = (dataForm:MakeQuizForm) => {
-    if(loading) return;
-    makequiz(dataForm);
-    router.push({pathname:'/'});
-  };
+  const [ correctAnswer, {data, loading, error} ] = useMutation<AnswerResult>("/api/answer/correctAnswer")
+  const quizState = useAppSelector((state) => state.quizState);
+  const quizTen = useAppSelector((state) => state.quizTen);
+  const { curNum, curScore, select } = quizState;
+  const { quizzes, quizTotal} = quizTen;
+  const { data:quiz10 } = useSWR<QuizResponse>(`/api/quiz?select=${select}`);
+  const dispatch = useDispatch();
   useEffect(()=>{
-    if(status!=="authenticated"){
-      router.push("/");
+    dispatch(resetQuiz());
+    quiz10?.quizzes.forEach((quiz)=>dispatch(settingQuiz(quiz)));
+  },[quiz10,dispatch])
+
+  const answerButton = () => {
+    if(quiz10?.quizzes[curNum].answer === +(choice.slice(-1)) ){
+      dispatch(increaseScore())
     }
-  },[router, status]);
+    correctAnswer({choice, id:quizzes[curNum].id});
+    router.push(`/answer/${quizzes[curNum].id}`)
+    setChoice("");
+  };
+  console.log(quizzes);
+  console.log(quizTotal);
   return (
-    <Layout title='퀴즈만들기'>
-      <div className='text-white font-bold text-3xl'>퀴즈를 만들어 보아요!</div>  
-      <form onSubmit={handleSubmit(onValid)} className="flex flex-col w-2/3 space-y-4 items-center">
-        <textarea
-          {...register("quiz",{
-            required:"문제를 입력해주세요!"
-          })} 
-          placeholder='문제' 
-          rows={3} 
-          className='appearance-none w-full md:w-2/3 px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
-        />
-        <div className='flex flex-col space-y-2 w-1/2'>
-            <input
-              {...register("choice1",{
-                required:"내용을 입력하세요!"
-              })} 
-              type="text" 
-              placeholder='보기 1번' 
-              className='appearance-none px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
-            /> 
-            <input
-              {...register("choice2",{
-                required:"내용을 입력하세요!"
-              })} 
-              type="text" 
-              placeholder='보기 2번' 
-              className='appearance-none px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
-            />
-            <input
-              {...register("choice3",{
-                required:"내용을 입력하세요!"
-              })} 
-              type="text" 
-              placeholder='보기 3번' 
-              className='appearance-none px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
-            /> 
-            <input
-              {...register("choice4",{
-                required:"내용을 입력하세요!"
-              })} 
-              type="text" 
-              placeholder='보기 4번' 
-              className='appearance-none px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500' 
-            />
+   <div className='h-screen flex items-center justify-center'>
+    <div className="h-1/2 flex justify-center">
+      <div className="block p-6 rounded-lg shadow-lg bg-white max-w-xs">
+        <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{quizzes[curNum]?.quiz}</h5>
+        <div className="flex mt-8 space-x-3 items-center justify-center mb-16">
+          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice1" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice1")}>{quizzes[curNum]?.choice1}</button>
+          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice2" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice2")}>{quizzes[curNum]?.choice2}</button>
+          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice3" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice3")}>{quizzes[curNum]?.choice3}</button>
+          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice4" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice4")}>{quizzes[curNum]?.choice4}</button>
         </div>
-        <div className="flex flex-col space-y-1 items-center">
-          <span className="flex items-center select-none text-sm text-gray-400">
-            보기 중 정답 번호(숫자만)
-          </span>
-          <input
-            {...register("answer",{
-              required:"정답을 입력하세요!"
-            })} 
-            type="text"
-            placeholder='1' 
-            className='appearance-none w-1/2 text-xs px-3 py-2 border-4 border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-center' 
-          /> 
-        </div>
-        <div className='w-full md:w-2/3'>
-            <button
-              disabled={!isValid || loading} 
-              className={cls('px-4 w-full py-2 rounded-xl text-slate-700 text-2xl bg-white font-bold text-center shadow-md hover:text-slate-900 hover:border-2', !isValid ? 'opacity-20' : '')}
-            >
-                퀴즈 만들기
-            </button>
-        </div>
-      </form>
-    </Layout>
+        <button 
+          disabled={choice===""} 
+          type="button" 
+          onClick={answerButton} 
+          className={cls("inline-block px-6 py-2.5 w-full bg-slate-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg transition duration-150 ease-in-out",choice==="" ? 'opacity-20' : '')}
+          >
+            제출
+          </button>
+      </div>
+    </div>
+   </div>
  );
 }
 
-export default QuizMake;
+export default Quiz;
