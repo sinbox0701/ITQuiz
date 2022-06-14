@@ -27,23 +27,26 @@ const Quiz: NextPage = () => {
   const quizState = useAppSelector((state) => state.quizState);
   const quizTen = useAppSelector((state) => state.quizTen);
   const { curNum, select } = quizState;
-  const { quizzes} = quizTen;
+  const { quizzes, quizTotal } = quizTen;
   const { data:quiz10 } = useSWR<QuizResponse>(`/api/quiz?select=${select}`);
   const dispatch = useDispatch();
   useEffect(()=>{
-    dispatch(resetQuiz());
-    quiz10?.quizzes.forEach((quiz)=>dispatch(settingQuiz(quiz)));
-  },[quiz10,dispatch])
+    // dispatch(resetQuiz());
+    if(quizTotal < 10) {
+      quiz10?.quizzes.forEach((quiz)=>dispatch(settingQuiz(quiz)));
+    }
+  },[quiz10,dispatch, quizTotal])
 
   const answerButton = () => {
-    if(quiz10?.quizzes[curNum].answer === +(choice.slice(-1)) ){
+    if(quizzes[curNum].answer === +(choice.slice(-1)) ){
       dispatch(increaseScore())
     }
     correctAnswer({choice, id:quizzes[curNum].id});
     router.push(`/answer/${quizzes[curNum].id}`)
     setChoice("");
   };
-
+  console.log(quizzes);
+  console.log(quizTotal);
   return (
    <div className='h-screen flex items-center justify-center'>
     <div className="h-1/2 flex justify-center">

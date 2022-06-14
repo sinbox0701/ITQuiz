@@ -14,6 +14,7 @@ interface MakeQuizForm {
   choice2: string;
   choice3: string;
   choice4: string;
+  user?: string; 
 };
 
 interface MakeQuizResult {
@@ -22,16 +23,15 @@ interface MakeQuizResult {
 }
 
 const QuizMake: NextPage = () => {
-  const { status } = useSession();
+  const { data:session, status } = useSession();
   const router = useRouter();
   const { register, handleSubmit, formState:{ isValid } } = useForm<MakeQuizForm>({
     mode:"onChange"
   });
-  console.log(isValid);
   const [ makequiz, { loading } ] = useMutation<MakeQuizResult>("/api/quiz/makeQuiz")
   const onValid = (dataForm:MakeQuizForm) => {
     if(loading) return;
-    makequiz(dataForm);
+    makequiz({...dataForm, user:session?.user?.name});
     router.push({pathname:'/'});
   };
   useEffect(()=>{

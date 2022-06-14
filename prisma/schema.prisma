@@ -33,7 +33,7 @@ model Quiz {
   total_c3 Int @default(0)
   total_c4 Int @default(0)
   submitCount Int @default(0)
-  description String?
+  description String @default("이 문제는 해설이 없습니다.")
   author String @default("admin")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

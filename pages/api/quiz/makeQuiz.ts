@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req:NextApiRequest, res:NextApiResponse<ResponseType>){
     const { quiz, answer, choice1, choice2, choice3, choice4 } = req.body;
+    console.log(req.body);
     const exist = await client.quiz.findUnique({
         where:{
             quiz
