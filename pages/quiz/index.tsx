@@ -2,6 +2,7 @@ import useMutation from '@libs/useMutation';
 import { cls } from '@libs/utils';
 import { Quiz } from '@prisma/client';
 import type { NextPage } from 'next'
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -45,24 +46,57 @@ const Quiz: NextPage = () => {
     setChoice("");
   };
   return (
-   <div className='h-screen flex items-center justify-center'>
-    <div className="h-1/2 flex justify-center">
-      <div className="block p-6 rounded-lg shadow-lg bg-white max-w-xs">
-        <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{curNum+1}. {quizzes[curNum]?.quiz}</h5>
-        <div className="flex mt-8 space-x-3 items-center justify-center mb-16">
-          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice1" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice1")}>{quizzes[curNum]?.choice1}</button>
-          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice2" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice2")}>{quizzes[curNum]?.choice2}</button>
-          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice3" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice3")}>{quizzes[curNum]?.choice3}</button>
-          <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice4" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice4")}>{quizzes[curNum]?.choice4}</button>
-        </div>
-        <button 
-          disabled={choice===""} 
-          type="button" 
-          onClick={answerButton} 
-          className={cls("inline-block px-6 py-2.5 w-full bg-slate-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg transition duration-150 ease-in-out",choice==="" ? 'opacity-20' : '')}
-          >
+   <div>
+    <Head>
+      <title>quiz</title>
+      <meta
+        name='description'
+        content='퀴즈 푸는 페이지'
+      />
+      <meta
+        name='keywords'
+        content='swyg, it, quiz, game'
+      />
+      <meta
+        name='og:site_name'
+        content='itquiz'
+      />
+      <meta
+        name='og:title'
+        content='quiz'
+      />
+      <meta
+        name='og:description'
+        content='퀴즈 푸는 페이지'
+      />
+      <meta
+        name='og:type'
+        content='website'
+      />
+      <meta
+        name='og:url'
+        content='https://itquiz.swygbro.com'
+      />
+    </Head>
+    <div className='h-screen flex items-center justify-center'>
+      <div className="h-1/2 flex justify-center">
+        <div className="block p-6 rounded-lg shadow-lg bg-white max-w-xs">
+          <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{curNum+1}. {quizzes[curNum]?.quiz}</h5>
+          <div className="flex mt-8 space-x-3 items-center justify-center mb-16">
+            <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice1" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice1")}>{quizzes[curNum]?.choice1}</button>
+            <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice2" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice2")}>{quizzes[curNum]?.choice2}</button>
+            <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice3" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice3")}>{quizzes[curNum]?.choice3}</button>
+            <button className={cls("px-2 py-1 rounded-xl text-sm text-center shadow-md", choice==="choice4" ? "border-2 border-rose-700 bg-red-300 text-white animate-bounce" : "text-slate-700")} onClick={() => setChoice("choice4")}>{quizzes[curNum]?.choice4}</button>
+          </div>
+          <button 
+            disabled={choice===""} 
+            type="button" 
+            onClick={answerButton} 
+            className={cls("inline-block px-6 py-2.5 w-full bg-slate-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg transition duration-150 ease-in-out",choice==="" ? 'opacity-20' : '')}
+            >
             제출
           </button>
+        </div>
       </div>
     </div>
    </div>
